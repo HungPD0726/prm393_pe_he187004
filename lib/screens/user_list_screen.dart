@@ -17,7 +17,7 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
   final _formKey = GlobalKey<FormState>();
   final _fullNameController = TextEditingController();
   final _emailController = TextEditingController();
-  final _avatarController = TextEditingController(text: defaultAvatarPath);
+  final _avatarController = TextEditingController();
 
   UserModel? _editingUser;
   bool _isFormVisible = true;
@@ -35,7 +35,9 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
     final state = ref.watch(userViewModelProvider);
 
     return Scaffold(
+      backgroundColor: Colors.yellow[100],
       appBar: AppBar(
+        backgroundColor: Colors.yellow,
         title: const Text('User Manager'),
         actions: [
           IconButton(
@@ -135,11 +137,14 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
           TextFormField(
             key: const Key('input_avatar'),
             controller: _avatarController,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: 'Avatar',
               hintText: 'Chọn ảnh',
-              suffixIcon: Icon(Icons.image),
-              border: OutlineInputBorder(),
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.image),
+                onPressed: _showAvatarPicker,
+              ),
+              border: const OutlineInputBorder(),
             ),
             validator: _validateAvatar,
           ),
@@ -325,7 +330,7 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
     _formKey.currentState!.reset();
     _fullNameController.clear();
     _emailController.clear();
-    _avatarController.text = defaultAvatarPath;
+    _avatarController.clear();
   }
 
   void _startEdit(UserModel user) {
@@ -348,7 +353,7 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
     _formKey.currentState!.reset();
     _fullNameController.clear();
     _emailController.clear();
-    _avatarController.text = defaultAvatarPath;
+    _avatarController.clear();
   }
 
   Future<void> _confirmDelete(UserModel user) async {
@@ -387,6 +392,31 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
       MaterialPageRoute<void>(
         builder: (_) => UserDetailScreen(user: user),
       ),
+    );
+  }
+
+  void _showAvatarPicker() {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Chọn ảnh đại diện'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.image),
+                title: const Text('Ảnh mặc định'),
+                subtitle: const Text(defaultAvatarPath),
+                onTap: () {
+                  _avatarController.text = defaultAvatarPath;
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
