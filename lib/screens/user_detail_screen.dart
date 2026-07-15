@@ -31,9 +31,11 @@ class UserDetailScreen extends StatelessWidget {
               const SizedBox(height: 24),
               // Không gộp label và value vào cùng một Text.
               // Testcase cần thấy đúng Text(user.fullName) và Text(user.email).
-              Text('ID: ${user.id}', key: const Key('detail_id')),
+              const Text('ID'),
+              const SizedBox(height: 4),
+              Text('${user.id}', key: const Key('detail_id')),
               const SizedBox(height: 12),
-              const Text('Họ và tên'),
+              const Text('Fullname'),
               const SizedBox(height: 4),
               Text(user.fullName, key: const Key('detail_fullname')),
               const SizedBox(height: 12),

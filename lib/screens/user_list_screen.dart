@@ -20,6 +20,7 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
   final _avatarController = TextEditingController(text: defaultAvatarPath);
 
   UserModel? _editingUser;
+  bool _isFormVisible = true;
 
   @override
   void dispose() {
@@ -34,7 +35,19 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
     final state = ref.watch(userViewModelProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('User Manager')),
+      appBar: AppBar(
+        title: const Text('User Manager'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              setState(() {
+                _isFormVisible = !_isFormVisible;
+              });
+            },
+          ),
+        ],
+      ),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -46,13 +59,14 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(
-                    width: constraints.maxWidth * 0.4,
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.all(12),
-                      child: _buildForm(),
+                  if (_isFormVisible)
+                    SizedBox(
+                      width: constraints.maxWidth * 0.4,
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.all(12),
+                        child: _buildForm(),
+                      ),
                     ),
-                  ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(12),
@@ -69,12 +83,13 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
               padding: const EdgeInsets.all(12),
               child: Column(
                 children: <Widget>[
-                  Flexible(
-                    child: SingleChildScrollView(
-                      child: _buildForm(),
+                  if (_isFormVisible)
+                    Flexible(
+                      child: SingleChildScrollView(
+                        child: _buildForm(),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 12),
+                  if (_isFormVisible) const SizedBox(height: 12),
                   Expanded(
                     child: _buildUserList(
                       users: state.items,
@@ -122,7 +137,8 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
             controller: _avatarController,
             decoration: const InputDecoration(
               labelText: 'Avatar',
-              hintText: defaultAvatarPath,
+              hintText: 'Chọn ảnh',
+              suffixIcon: Icon(Icons.image),
               border: OutlineInputBorder(),
             ),
             validator: _validateAvatar,
@@ -319,6 +335,7 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
       _fullNameController.text = user.fullName;
       _emailController.text = user.email;
       _avatarController.text = user.avatar;
+      _isFormVisible = true;
     });
   }
 
