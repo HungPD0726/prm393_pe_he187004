@@ -35,9 +35,7 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
     final state = ref.watch(userViewModelProvider);
 
     return Scaffold(
-      backgroundColor: Colors.yellow[100],
       appBar: AppBar(
-        backgroundColor: Colors.yellow,
         title: const Text('User Manager'),
         actions: [
           IconButton(
@@ -155,6 +153,10 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
                 child: ElevatedButton(
                   key: const Key('btn_add_user'),
                   onPressed: _handleSubmit,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.yellow,
+                    foregroundColor: Colors.black,
+                  ),
                   child:
                       Text(_editingUser == null ? 'ADD USER' : 'UPDATE USER'),
                 ),

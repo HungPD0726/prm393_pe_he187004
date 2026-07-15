@@ -14,10 +14,8 @@ class UserDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.yellow[100],
       appBar: AppBar(
         title: const Text('User Detail'),
-        backgroundColor: Colors.yellow,
       ),
       body: SafeArea(
         child: Padding(
