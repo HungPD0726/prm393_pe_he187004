@@ -16,6 +16,7 @@ class UserDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('User Detail'),
+        backgroundColor: Colors.yellow,
       ),
       body: SafeArea(
         child: Padding(
@@ -36,11 +37,11 @@ class UserDetailScreen extends StatelessWidget {
               const Text('ID'),
               const SizedBox(height: 4),
               Text('${user.id}', key: const Key('detail_id')),
-              const SizedBox(height: 12),
+              const Divider(height: 24),
               const Text('Fullname'),
               const SizedBox(height: 4),
               Text(user.fullName, key: const Key('detail_fullname')),
-              const SizedBox(height: 12),
+              const Divider(height: 24),
               const Text('Email'),
               const SizedBox(height: 4),
               Text(user.email, key: const Key('detail_email')),

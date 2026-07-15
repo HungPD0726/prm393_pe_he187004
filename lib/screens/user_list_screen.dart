@@ -36,6 +36,7 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.yellow,
         title: const Text('User Manager'),
         actions: [
           IconButton(
